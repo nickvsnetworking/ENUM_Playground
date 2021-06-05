@@ -1,0 +1,42 @@
+$TTL 1h
+@ IN SOA ns.e164.arpa. root.e164.arpa. (
+                                                        2009010918 ;serial
+                                                        3600 ;refresh
+                                                        3600 ;retry
+                                                        3600 ;expire
+                                                        3600 ;minimum TTL
+)
+@ IN NS e164.arpa.
+@ IN A 127.0.0.1
+; E.164 Address +61355500911 - Simple no replacement (Resolves all traffic to sip:61355500912@10.0.1.98)
+1.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!^.*$!sip:61355500912@10.0.1.98!" .
+
+; E.164 Address +61355500912 - Simple 50/50 load balance between two hosts (Equal preference of 100 between the two servers (server1 and server2))
+2.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!^.*$!sip:61355500912@server1.enum.nickvsnetworking.com!" .
+2.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!^.*$!sip:61355500912@server2.enum.nickvsnetworking.com!" .
+
+; E.164 Address +61355500913 - More complex load balance between 3 hosts (25% server1, 25% server2, 50% server3)
+3.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!^.*$!sip:61355500912@server1.enum.nickvsnetworking.com!" .
+3.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!^.*$!sip:61355500912@server2.enum.nickvsnetworking.com!" .
+3.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 200 "u" "E2U+sip" "!^.*$!sip:61355500912@server3.enum.nickvsnetworking.com!" .
+
+; E.164 Address +61355500914 - Order example returning multiple SIP URIs to try for failover
+4.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!^.*$!sip:61355500912@firstchoice.enum.nickvsnetworking.com!" .
+4.1.9.0.0.5.5.5.3.1.6 IN NAPTR 20 100 "u" "E2U+sip" "!^.*$!sip:61355500912@secondchoice.enum.nickvsnetworking.com!" .
+
+; Regex SIP Request URI replacement single number (Resolves all traffic to E.164 address +61355500913 to sip:61355500913@enum.nickvsnetworking.com)
+5.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!(^.*$)!sip:+1\\1@enum.nickvsnetworking.com!" .
+
+; Wildcard E.164 Address +61255501* - Wildcard example for all destinations starting with E.164 prefix +61255501x to single destination (sip:61255501_numbers@enum.nickvsnetworking.com)
+; For example E.164 number +61255012345 will resolve to sip:61255501_numbers@enum.nickvsnetworking.com
+*.1.0.5.5.5.2.1.6 IN NAPTR 100 100 "u" "E2U+sip" "!^.*$!sip:61255501_numbers@enum.nickvsnetworking.com!" .
+
+; Wildcard example for all destinations starting with E.164 prefix +61255502x to regex filled destination
+; For example a request to 61255502000 will return sip:61255502000@regex.enum.nickvsnetworking.com)
+*.2.0.5.5.5.2.1.6 IN NAPTR 100 100 "u" "E2U+sip" "!(^.*$)!sip:+1\\1@enum.nickvsnetworking.com!" .
+
+; More specific example with lower order than +6125550x wildcard for E.164 address +61255501234 will return sip:staticroute@enum.nickvsnetworking.com
+4.3.2.1.0.5.5.5.2.1.6 IN NAPTR 50 100 "u" "E2U+sip" "!^.*$!sip:staticroute@enum.nickvsnetworking.com!" .
+
+; Wildcard international route
+*.1.1.0.0 IN NAPTR 100 100 "u" "E2U+sip" "!(^.*$)!sip:+1\\1@international_gw.nickvsnetworking.com!" .
