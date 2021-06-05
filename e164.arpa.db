@@ -28,11 +28,11 @@ $TTL 1h
 5.1.9.0.0.5.5.5.3.1.6 IN NAPTR 10 100 "u" "E2U+sip" "!(^.*$)!sip:+1\\1@enum.nickvsnetworking.com!" .
 
 ; Wildcard E.164 Address +61255501* - Wildcard example for all destinations starting with E.164 prefix +61255501x to single destination (sip:61255501_numbers@enum.nickvsnetworking.com)
-; For example E.164 number +61255012345 will resolve to sip:61255501_numbers@enum.nickvsnetworking.com
+; For example E.164 number +6125501234 will resolve to sip:61255501_numbers@enum.nickvsnetworking.com
 *.1.0.5.5.5.2.1.6 IN NAPTR 100 100 "u" "E2U+sip" "!^.*$!sip:61255501_numbers@enum.nickvsnetworking.com!" .
 
 ; Wildcard example for all destinations starting with E.164 prefix +61255502x to regex filled destination
-; For example a request to 61255502000 will return sip:61255502000@regex.enum.nickvsnetworking.com)
+; For example a request to +61255502000 will return sip:61255502000@regex.enum.nickvsnetworking.com)
 *.2.0.5.5.5.2.1.6 IN NAPTR 100 100 "u" "E2U+sip" "!(^.*$)!sip:+1\\1@enum.nickvsnetworking.com!" .
 
 ; More specific example with lower order than +6125550x wildcard for E.164 address +61255501234 will return sip:staticroute@enum.nickvsnetworking.com
