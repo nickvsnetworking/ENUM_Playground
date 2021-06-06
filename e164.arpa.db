@@ -35,8 +35,8 @@ $TTL 1h
 ; For example a request to +61255502000 will return sip:61255502000@regex.enum.nickvsnetworking.com)
 *.2.0.5.5.5.2.1.6 IN NAPTR 100 100 "u" "E2U+sip" "!(^.*$)!sip:+1\\1@enum.nickvsnetworking.com!" .
 
-; More specific example with lower order than +6125550x wildcard for E.164 address +61255501234 will return sip:staticroute@enum.nickvsnetworking.com
-4.3.2.1.0.5.5.5.2.1.6 IN NAPTR 50 100 "u" "E2U+sip" "!^.*$!sip:staticroute@enum.nickvsnetworking.com!" .
+; More specific example with lower order than +6125550x wildcard for E.164 address +61255502345 will return sip:staticroute@enum.nickvsnetworking.com
+5.4.3.2.0.5.5.5.2.1.6 IN NAPTR 50 100 "u" "E2U+sip" "!^.*$!sip:staticroute@enum.nickvsnetworking.com!" .
 
 ; Wildcard international route
 *.1.1.0.0 IN NAPTR 100 100 "u" "E2U+sip" "!(^.*$)!sip:+1\\1@international_gw.nickvsnetworking.com!" .
